@@ -64,12 +64,12 @@ function save($filename,$TXTdata){
 	}
 
 //============(config)==========
-$token = "8874940402:AAFXnMVQT5xrpMSpQ4TcZ6K5quiGvIW3hOE"; //Token
+$token = "8599773016:AAFfY6A9K_0sbqfyCjqkEf5VoI4S0sfsVdg"; //Token
 $channel = "@Nim_Shab2"; //Channel ID with @
 $id_support ="KHAN_Sohail_580"; //Support ID without @
 $bot_id = "Helper_Yaser_VIP_Bot"; //Bot ID without @
 $admin = "8650091524"; // آیدی عددی ادمین
-$folder = ""; //Host and Folder
+$folder = "https://bot-4zrs.onrender.com/index.php"; //Host and Folder
 //==============================
 $update = json_decode(file_get_contents("php://input"));
 $message = $update->message;
