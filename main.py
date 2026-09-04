@@ -10134,11 +10134,10 @@ class TelegramAuthBot(AdminPanelMixin):
             f"🕐 زمان: {datetime.now().strftime('%H:%M:%S')}"
         )  
         conv_handler = ConversationHandler(
-  ربات SelfStruct System در حال اجراست...
-  API ID: 24775679
-  مالک ربات: 8650091524
-  خزانه شرط‌بندی: 0 سکه
-Traceback (most recent call last):
+print("ربات SelfStruct System در حال اجراست...")
+print("API ID:", self.api_id)
+print("مالک ربات:", self.owner_id)
+print(f"خزانه شرط‌بندی: {self.betting_treasury_balance():,} سکه")Traceback (most recent call last):
   File "/opt/render/project/src/main.py", line 10473, in <module>
     bot.run()
     ~~~~~~~^^
