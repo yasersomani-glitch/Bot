@@ -10440,48 +10440,16 @@ class TelegramAuthBot(AdminPanelMixin):
         
         await update.message.reply_text(user_info_text, parse_mode='Markdown')
     
- def run(self):
+def run(self):
     print("🤖 ربات SelfStruct System در حال اجراست...")
     print("🔑 API ID:", self.api_id)
     print("👑 مالک ربات:", self.owner_id)
     print(f"🏦 خزانه شرط‌بندی: {self.betting_treasury_balance():,} سکه")
     
-    # راه حل برای Python 3.14
     import asyncio
     try:
-        # برای Python 3.14 و بالاتر
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
     except RuntimeError:
-        # برای نسخه‌های قدیمی‌تر
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-if __name__ == "__main__":
-    BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
-    API_ID = os.getenv("TELEGRAM_API_ID", "").strip()
-    API_HASH = os.getenv("TELEGRAM_API_HASH", "").strip()
-    OWNER_ID = os.getenv("OWNER_ID", "").strip()
-
-    missing_settings = []
-    if not BOT_TOKEN:
-        missing_settings.append("BOT_TOKEN")
-    if not API_ID:
-        missing_settings.append("TELEGRAM_API_ID")
-    if not API_HASH:
-        missing_settings.append("TELEGRAM_API_HASH")
-    if not OWNER_ID:
-        missing_settings.append("OWNER_ID")
-    
-    if missing_settings:
-        raise RuntimeError(
-            "تنظیمات اجباری وارد نشده‌اند: " + ", ".join(missing_settings)
-        )
-    
-    try:
-        OWNER_ID = int(OWNER_ID)
-    except ValueError:
-        raise RuntimeError("OWNER_ID باید یک عدد معتبر باشد.")
-    
-    bot = TelegramAuthBot(BOT_TOKEN, API_ID, API_HASH)
-    bot.run()
