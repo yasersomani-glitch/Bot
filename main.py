@@ -10132,6 +10132,7 @@ class TelegramAuthBot(AdminPanelMixin):
             f"💰 موجودی جدید شما: {sender_after:,} الماس\n"
             f"📊 انتقال ۲۴ ساعت اخیر: {used_today:,} الماس\n"
             f"🕐 زمان: {datetime.now().strftime('%H:%M:%S')}"
+)  # این پرانتز را ببندید
         # اگر پرانتز مربوط به یک تابع قبلی است، آن را کامل کنید
 # سپس در خط جدید conv_handler را تعریف کنید
 
