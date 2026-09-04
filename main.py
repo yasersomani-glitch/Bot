@@ -10132,8 +10132,16 @@ class TelegramAuthBot(AdminPanelMixin):
             f"💰 موجودی جدید شما: {sender_after:,} الماس\n"
             f"📊 انتقال ۲۴ ساعت اخیر: {used_today:,} الماس\n"
             f"🕐 زمان: {datetime.now().strftime('%H:%M:%S')}"
-        )  
-        conv_handler = ConversationHandler(
+        # اگر پرانتز مربوط به یک تابع قبلی است، آن را کامل کنید
+# سپس در خط جدید conv_handler را تعریف کنید
+
+conv_handler = ConversationHandler(  # بدون پرانتز اضافی قبل از آن
+    entry_points=[CommandHandler('start', start_command)],
+    states={
+        # حالت‌های مختلف
+    },
+    fallbacks=[CommandHandler('cancel', cancel_command)],
+)
 print("ربات SelfStruct System در حال اجراست...")
 print("API ID:", self.api_id)
 print("مالک ربات:", self.owner_id)
