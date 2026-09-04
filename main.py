@@ -10453,26 +10453,50 @@ def run(self):
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
     except RuntimeError:
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
-        # این کد را به انتهای فایل main.py اضافه کنید
-import threading
-from http.server import HTTPServer, BaseHTTPRequestHandler
+       # 1. ابتدا کتابخانه‌ها را import کنید
+import os
+from telegram.ext import ...  # و بقیه importها
 
-class HealthCheckHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"OK")
-
-def run_health_server():
-    port = int(os.environ.get("PORT", 10000))
-    server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
-    server.serve_forever()
-
-# قبل از اجرای ربات، این خط را اضافه کنید
-if __name__ == "__main__":
-    # اجرای سرور سلامت در یک ترد جداگانه
-    threading.Thread(target=run_health_server, daemon=True).start()
+# 2. کلاس‌ها و توابع را تعریف کنید
+class TelegramAuthBot:
+    def __init__(self, bot_token, api_id, api_hash):
+        # ...
+        pass
     
-    # کد اصلی ربات شما
+    def run(self):
+        # ...
+        pass
+
+# 3. بخش اصلی برنامه (همه متغیرها اینجا تعریف می‌شوند)
+if __name__ == "__main__":
+    # تعریف همه متغیرهای محیطی در ابتدای بخش اصلی
+    BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+    API_ID = os.getenv("TELEGRAM_API_ID", "").strip()
+    API_HASH = os.getenv("TELEGRAM_API_HASH", "").strip()
+    OWNER_ID = os.getenv("OWNER_ID", "").strip()
+
+    # بررسی مقادیر خالی
+    missing_settings = []
+    if not BOT_TOKEN:
+        missing_settings.append("BOT_TOKEN")
+    if not API_ID:
+        missing_settings.append("TELEGRAM_API_ID")
+    if not API_HASH:
+        missing_settings.append("TELEGRAM_API_HASH")
+    if not OWNER_ID:
+        missing_settings.append("OWNER_ID")
+    
+    if missing_settings:
+        raise RuntimeError(
+            "تنظیمات اجباری وارد نشده‌اند: " + ", ".join(missing_settings)
+        )
+    
+    # تبدیل OWNER_ID به عدد
+    try:
+        OWNER_ID = int(OWNER_ID)
+    except ValueError:
+        raise RuntimeError("OWNER_ID باید یک عدد معتبر باشد.")
+    
+    # حالا که همه متغیرها تعریف شده‌اند، ربات را بسازید
     bot = TelegramAuthBot(BOT_TOKEN, API_ID, API_HASH)
     bot.run()
