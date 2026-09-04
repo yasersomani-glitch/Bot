@@ -1,4 +1,19 @@
-import logging
+Uploaded in 2.4s. Compression took 1.3s
+==> Build successful 🎉
+==> Deploying...
+==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
+==> Running 'python main.py'
+  File "/opt/render/project/src/main.py", line 10458
+    from telegram.ext import   # و بقیه importها
+                               ^^^^^^^^^^^^^^^^^
+SyntaxError: Expected one or more names after 'import'
+==> Exited with status 1
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+==> Running 'python main.py'
+  File "/opt/render/project/src/main.py", line 10458
+    from telegram.ext import   # و بقیه importها
+                               ^^^^^^^^^^^^^^^^^
+SyntaxError: Expected one or more names after 'import'import logging
 from telegram import (
     Bot,
     InlineKeyboardButton,
@@ -10455,7 +10470,7 @@ def run(self):
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
        # 1. ابتدا کتابخانه‌ها را import کنید
 import os
-from telegram.ext    # و بقیه importها
+from telegram.ext    
 
 # 2. کلاس‌ها و توابع را تعریف کنید
 class TelegramAuthBot:
