@@ -10455,7 +10455,7 @@ def run(self):
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
        # 1. ابتدا کتابخانه‌ها را import کنید
 import os
-from telegram.ext import ...  # و بقیه importها
+from telegram.ext import   # و بقیه importها
 
 # 2. کلاس‌ها و توابع را تعریف کنید
 class TelegramAuthBot:
