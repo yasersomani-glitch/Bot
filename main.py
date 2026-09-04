@@ -10470,10 +10470,10 @@ RuntimeError: There is no current event loop in thread 'MainThread'.
         await update.message.reply_text(user_info_text, parse_mode='Markdown')
     
    def run(self):
-    print("🤖 ربات SelfStruct System در حال اجراست...")
-    print("🔑 API ID:", self.api_id)
-    print("👑 مالک ربات:", self.owner_id)
-    print(f"🏦 خزانه شرط‌بندی: {self.betting_treasury_balance():,} سکه")
+    print("ربات SelfStruct System در حال اجراست...")
+    print(" API ID:", self.api_id)
+    print(" مالک ربات:", self.owner_id)
+    print(f" خزانه شرط‌بندی: {self.betting_treasury_balance():,} سکه")
     
     # ===== راه حل برای Python 3.14 =====
     import asyncio
