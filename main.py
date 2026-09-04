@@ -10132,7 +10132,36 @@ class TelegramAuthBot(AdminPanelMixin):
             f"💰 موجودی جدید شما: {sender_after:,} الماس\n"
             f"📊 انتقال ۲۴ ساعت اخیر: {used_today:,} الماس\n"
             f"🕐 زمان: {datetime.now().strftime('%H:%M:%S')}"
-        )
+        )  conv_handler = ConversationHandler(
+🤖 ربات SelfStruct System در حال اجراست...
+🔑 API ID: 24775679
+👑 مالک ربات: 8650091524
+🏦 خزانه شرط‌بندی: 0 سکه
+Traceback (most recent call last):
+  File "/opt/render/project/src/main.py", line 10473, in <module>
+    bot.run()
+    ~~~~~~~^^
+  File "/opt/render/project/src/main.py", line 10448, in run
+    self.application.run_polling(allowed_updates=Update.ALL_TYPES)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/render/project/src/.venv/lib/python3.14/site-packages/telegram/ext/_application.py", line 873, in run_polling
+    return self.__run(
+           ~~~~~~~~~~^
+        updater_coroutine=self.updater.start_polling(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<13 lines>...
+        close_loop=close_loop,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/render/project/src/.venv/lib/python3.14/site-packages/telegram/ext/_application.py", line 1069, in __run
+    loop = asyncio.get_event_loop()
+  File "/opt/render/project/python/Python-3.14.3/lib/python3.14/asyncio/events.py", line 715, in get_event_loop
+    raise RuntimeError('There is no current event loop in thread %r.'
+                       % threading.current_thread().name)
+RuntimeError: There is no current event loop in thread 'MainThread'.
+<sys>:0: RuntimeWarning: coroutine 'Updater.start_polling' was never awaited
+==> Running 'python main.py'
         await message.reply_text(transfer_text)
 
         try:
@@ -10440,34 +10469,54 @@ class TelegramAuthBot(AdminPanelMixin):
         
         await update.message.reply_text(user_info_text, parse_mode='Markdown')
     
-    def run(self):
-        print("🤖 ربات SelfStruct System در حال اجراست...")
-        print("🔑 API ID:", self.api_id)
-        print("👑 مالک ربات:", self.owner_id)
-        print(f"🏦 خزانه شرط‌بندی: {self.betting_treasury_balance():,} سکه")
-        self.application.run_polling(allowed_updates=Update.ALL_TYPES)
+   def run(self):
+    print("🤖 ربات SelfStruct System در حال اجراست...")
+    print("🔑 API ID:", self.api_id)
+    print("👑 مالک ربات:", self.owner_id)
+    print(f"🏦 خزانه شرط‌بندی: {self.betting_treasury_balance():,} سکه")
+    
+    # ===== راه حل برای Python 3.14 =====
+    import asyncio
+    try:
+        # سعی می‌کنیم حلقه رویداد موجود را بگیریم
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        # اگر حلقه‌ای وجود نداشت، یک حلقه جدید می‌سازیم
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+    
+    self.application.run_polling(allowed_updates=Update.ALL_TYPES)
 
-# تنظیمات اصلی
+# ===== تنظیمات اصلی =====
 if __name__ == "__main__":
+    # خواندن متغیرهای محیطی
     BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
     API_ID = os.getenv("TELEGRAM_API_ID", "").strip()
     API_HASH = os.getenv("TELEGRAM_API_HASH", "").strip()
     OWNER_ID = os.getenv("OWNER_ID", "").strip()
 
-    missing_settings = [
-        name
-        for name, value in (
-            ("8599773016:AAFfY6A9K_0sbqfyCjqkEf5VoI4S0sfsVdg", BOT_TOKEN),
-            ("24775679", API_ID),
-            ("6c534bd84521d6325816520af1d48a23", API_HASH),
-            ("8650091524", OWNER_ID),
-        )
-        if not value
-    ]
+    # بررسی وجود متغیرها (با نام‌های درست)
+    missing_settings = []
+    if not BOT_TOKEN:
+        missing_settings.append("BOT_TOKEN")
+    if not API_ID:
+        missing_settings.append("TELEGRAM_API_ID")
+    if not API_HASH:
+        missing_settings.append("TELEGRAM_API_HASH")
+    if not OWNER_ID:
+        missing_settings.append("OWNER_ID")
+    
     if missing_settings:
         raise RuntimeError(
             "تنظیمات اجباری وارد نشده‌اند: " + ", ".join(missing_settings)
         )
     
+    # تبدیل OWNER_ID به عدد
+    try:
+        OWNER_ID = int(OWNER_ID)
+    except ValueError:
+        raise RuntimeError("OWNER_ID باید یک عدد معتبر باشد.")
+    
+    # ساخت و اجرای ربات
     bot = TelegramAuthBot(BOT_TOKEN, API_ID, API_HASH)
     bot.run()
