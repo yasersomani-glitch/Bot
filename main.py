@@ -10440,7 +10440,7 @@ class TelegramAuthBot(AdminPanelMixin):
         
         await update.message.reply_text(user_info_text, parse_mode='Markdown')
     
-  def run(self):
+ def run(self):
     print("🤖 ربات SelfStruct System در حال اجراست...")
     print("🔑 API ID:", self.api_id)
     print("👑 مالک ربات:", self.owner_id)
@@ -10458,13 +10458,11 @@ class TelegramAuthBot(AdminPanelMixin):
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
-    # اصلاح: اسم متغیرها رو درست کن
     BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
     API_ID = os.getenv("TELEGRAM_API_ID", "").strip()
     API_HASH = os.getenv("TELEGRAM_API_HASH", "").strip()
     OWNER_ID = os.getenv("OWNER_ID", "").strip()
 
-    # بررسی کن که متغیرها خالی نباشن
     missing_settings = []
     if not BOT_TOKEN:
         missing_settings.append("BOT_TOKEN")
@@ -10480,7 +10478,6 @@ if __name__ == "__main__":
             "تنظیمات اجباری وارد نشده‌اند: " + ", ".join(missing_settings)
         )
     
-    # OWNER_ID رو به عدد تبدیل کن
     try:
         OWNER_ID = int(OWNER_ID)
     except ValueError:
@@ -10488,4 +10485,3 @@ if __name__ == "__main__":
     
     bot = TelegramAuthBot(BOT_TOKEN, API_ID, API_HASH)
     bot.run()
-    
