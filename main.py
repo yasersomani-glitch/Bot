@@ -10446,21 +10446,19 @@ class TelegramAuthBot(AdminPanelMixin):
         print("👑 مالک ربات:", self.owner_id)
         print(f"🏦 خزانه شرط‌بندی: {self.betting_treasury_balance():,} سکه")
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-# تنظیمات اصلی
 if __name__ == "__main__":
-    BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
-    API_ID = os.getenv("TELEGRAM_API_ID", "").strip()
-    API_HASH = os.getenv("TELEGRAM_API_HASH", "").strip()
-    OWNER_ID = os.getenv("OWNER_ID", "").strip()
+    BOT_TOKEN = os.getenv("BOT_TOKEN", "8599773016:AAFfY6A9K_0sbqfyCjqkEf5VoI4S0sfsVdg").strip()
+    API_ID = os.getenv("TELEGRAM_API_ID", "24775679").strip()
+    API_HASH = os.getenv("TELEGRAM_API_HASH", "6c534bd84521d6325816520af1d48a23").strip()
+    OWNER_ID = os.getenv("OWNER_ID", "8650091524").strip()
 
     missing_settings = [
         name
         for name, value in (
-            ("8599773016:AAFfY6A9K_0sbqfyCjqkEf5VoI4S0sfsVdg", BOT_TOKEN),
-            ("24775679", API_ID),
-            ("6c534bd84521d6325816520af1d48a23", API_HASH),
-            ("8650091524", OWNER_ID),
+            ("BOT_TOKEN", BOT_TOKEN),
+            ("TELEGRAM_API_ID", API_ID),
+            ("TELEGRAM_API_HASH", API_HASH),
+            ("OWNER_ID", OWNER_ID),
         )
         if not value
     ]
