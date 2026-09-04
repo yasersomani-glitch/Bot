@@ -10455,10 +10455,10 @@ if __name__ == "__main__":
     missing_settings = [
         name
         for name, value in (
-            ("BOT_TOKEN", BOT_TOKEN),
-            ("TELEGRAM_API_ID", API_ID),
-            ("TELEGRAM_API_HASH", API_HASH),
-            ("OWNER_ID", OWNER_ID),
+            ("8599773016:AAFfY6A9K_0sbqfyCjqkEf5VoI4S0sfsVdg", BOT_TOKEN),
+            ("24775679", API_ID),
+            ("6c534bd84521d6325816520af1d48a23", API_HASH),
+            ("8650091524", OWNER_ID),
         )
         if not value
     ]
