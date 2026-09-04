@@ -10453,3 +10453,26 @@ def run(self):
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
     except RuntimeError:
         self.application.run_polling(allowed_updates=Update.ALL_TYPES)
+        # این کد را به انتهای فایل main.py اضافه کنید
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+
+def run_health_server():
+    port = int(os.environ.get("PORT", 10000))
+    server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
+    server.serve_forever()
+
+# قبل از اجرای ربات، این خط را اضافه کنید
+if __name__ == "__main__":
+    # اجرای سرور سلامت در یک ترد جداگانه
+    threading.Thread(target=run_health_server, daemon=True).start()
+    
+    # کد اصلی ربات شما
+    bot = TelegramAuthBot(BOT_TOKEN, API_ID, API_HASH)
+    bot.run()
