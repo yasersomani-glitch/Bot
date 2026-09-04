@@ -10132,7 +10132,8 @@ class TelegramAuthBot(AdminPanelMixin):
             f"💰 موجودی جدید شما: {sender_after:,} الماس\n"
             f"📊 انتقال ۲۴ ساعت اخیر: {used_today:,} الماس\n"
             f"🕐 زمان: {datetime.now().strftime('%H:%M:%S')}"
-        )  conv_handler = ConversationHandler(
+        )  
+        conv_handler = ConversationHandler(
   ربات SelfStruct System در حال اجراست...
   API ID: 24775679
   مالک ربات: 8650091524
