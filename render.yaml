@@ -1,0 +1,30 @@
+services:
+  - type: worker
+    name: telegram-clock-php
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: php index.php
+    numInstances: 1
+
+    disk:
+      name: telegram-clock-data
+      mountPath: /var/data
+      sizeGB: 1
+
+    envVars:
+      - key: API_ID
+        sync: false
+
+      - key: API_HASH
+        sync: false
+
+      - key: TIMEZONE
+        value: Asia/Kabul
+
+      - key: UPDATE_INTERVAL
+        value: "60"
+
+      - key: SESSION_PATH
+        value: /var/data/telegram-clock/clock.madeline
