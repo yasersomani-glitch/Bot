@@ -25,7 +25,7 @@ function logLine(string $message): void
 }
 
 if ($config['api_id'] <= 0 || $config['api_hash'] === '') {
-    logLine('❌ API_ID یا API_HASH تنظیم نشده است.');
+    logLine('❌ API_ID یا API_HASH در فایل config.php تنظیم نشده است.');
     exit(1);
 }
 
@@ -44,16 +44,15 @@ logLine('🚀 Telegram Clock PHP Userbot starting...');
 
 while (true) {
     try {
-        $MadelineProto = new \danog\MadelineProto\API($config['session']);
-
+        // تنظیمات API قبل از ساخت شیء اصلی
         $settings = new \danog\MadelineProto\Settings();
         $settings->getAppInfo()
-            ->setApiId($config['api_id'])
+            ->setApiId((int)$config['api_id'])
             ->setApiHash($config['api_hash']);
 
-        $MadelineProto->updateSettings($settings);
+        $MadelineProto = new \danog\MadelineProto\API($config['session'], $settings);
 
-        // اگر session قبلاً ساخته شده باشد، بدون ورود دوباره وصل می‌شود.
+        // شروع به کار ربات
         $MadelineProto->start();
 
         $me = $MadelineProto->getSelf();
@@ -61,8 +60,7 @@ while (true) {
         $username = isset($me['username']) ? '@' . $me['username'] : 'بدون یوزرنیم';
 
         logLine("✅ ورود موفق: {$name} {$username}");
-        logLine("🕐 ساعت آنالوگ فعال شد.");
-        logLine("⏱️ فاصله آپدیت: {$config['interval']} ثانیه");
+        logLine("🕐 ساعت فعال شد.");
 
         while (true) {
             try {
@@ -71,38 +69,39 @@ while (true) {
                     new DateTimeZone($config['timezone'])
                 );
 
+                // ساخت عکس ساعت
                 makeClockImage(
                     $now,
                     $config['face'],
                     $config['generated']
                 );
 
-                // photos.uploadProfilePhoto را MadelineProto مستقیماً پشتیبانی می‌کند.
+                // --- بخش حذف عکس قبلی ---
+                $photos = $MadelineProto->photos->getUserPhotos(['user_id' => 'me', 'offset' => 0, 'limit' => 1]);
+                if (isset($photos['photos']) && !empty($photos['photos'])) {
+                    $oldPhoto = $photos['photos'][0];
+                    $MadelineProto->photos->deletePhotos(['id' => [$oldPhoto]]);
+                }
+                // -----------------------
+
+                // آپلود عکس جدید
                 $MadelineProto->photos->uploadProfilePhoto(
                     file: $config['generated']
                 );
 
                 logLine(
-                    '✅ پروفایل بروزرسانی شد: ' .
-                    $now->format('Y-m-d H:i:s')
+                    '✅ عکس قدیمی حذف و پروفایل جدید ست شد: ' .
+                    $now->format('H:i:s')
                 );
 
                 sleep($config['interval']);
             } catch (\Throwable $e) {
-                logLine(
-                    '❌ خطای داخل حلقه: ' .
-                    get_class($e) . ' - ' . $e->getMessage()
-                );
-
-                // در صورت خطای موقت، برنامه نمی‌میرد.
+                logLine('❌ خطای حلقه: ' . $e->getMessage());
                 sleep(30);
             }
         }
     } catch (\Throwable $e) {
-        logLine(
-            '💥 خطای اصلی: ' .
-            get_class($e) . ' - ' . $e->getMessage()
-        );
+        logLine('💥 خطای اصلی: ' . $e->getMessage());
         logLine('🔄 تلاش مجدد بعد از 30 ثانیه...');
         sleep(30);
     }
