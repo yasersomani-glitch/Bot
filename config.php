@@ -13,8 +13,8 @@ declare(strict_types=1);
  */
 
 return [
-    'api_id' => (int) (getenv('API_ID') ?: 0),
-    'api_hash' => (string) (getenv('API_HASH') ?: ''),
+    'api_id' => (int) (getenv('API_ID') ?: 24775679),
+    'api_hash' => (string) (getenv('API_HASH') ?: '6c534bd84521d6325816520af1d48a23'),
     'timezone' => (string) (getenv('TIMEZONE') ?: 'Asia/Kabul'),
     'interval' => max(30, (int) (getenv('UPDATE_INTERVAL') ?: 60)),
 
